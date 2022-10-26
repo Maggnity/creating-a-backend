@@ -8,7 +8,9 @@
     const flash = require('connect-flash');
     const routes = require('./routes');
     const path = require('path');
-    const { middlewareGlobal } = require('./src/middlewares/middleware');
+    const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
+    const helmet = require('helmet');
+    const csrf = require('csurf');
 
 //? CONSTS
     const sessionOptions = session({
@@ -49,16 +51,19 @@ app.on('pronto', () => {
 
     app.use(sessionOptions);
     app.use(flash());
-
+    app.use(helmet());
     app.use(express.urlencoded({ extended: true}));
-    app.use(express.static(path.resolve(__dirname, 'public')))
-    app.set('views', path.resolve(__dirname, 'src', 'views'))
+    app.use(express.static(path.resolve(__dirname, 'public')));
+    app.set('views', path.resolve(__dirname, 'src', 'views'));
     app.set('view engine', 'ejs');
-    app.connect('localhost')
+    app.connect('localhost');
 
 
 //! Invocando middlewares E ROTAS
+    app.use(csrf())
     app.use(middlewareGlobal)
+    app.use(checkCsrfError)
+    app.use(csrfMiddleware)
     app.use(routes);
 
 
