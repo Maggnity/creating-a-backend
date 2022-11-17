@@ -1,0 +1,25 @@
+<%- include('includes/head') %> 
+<%- include('includes/nav') %>
+
+<div class="container">
+    <div class="column">
+        <div class="col-lg-8 my-3 mx-auto">
+            <h1 class="display-2 text-center">Ola <%= user.email %></h1>
+            <p class="text-center lead">Vc precisa sair para criar outra conta.</p>
+
+            <%- include('includes/messages') %>
+            
+            message aqui
+            <div class="row">
+                <div class="col-lg">
+                    <h4>Faca seu cadastro</h4>
+                    <p>
+                        Se voce ainda nao tem conta preencha o formulario abaixo
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('includes/footer') %>

@@ -1,20 +1,9 @@
+const Contato = require('../models/ContatoModel');
+
 // ! 
     exports
-        .paginaInicial = (req, res, next) => {
-            res.render('index', {
-                titulo: 'Este sera o titulo da pagina',
-                numeros: [0,1,2,3,4,5,6,7,8,9]
-            });
-
-
-            next();
-            return;
+        .index = async (req, res, next) => {
+            const contatos = await Contato.buscaContato();
+            
+            res.render('index', { contatos });
     };
-
-
-// !
-    exports
-        .trataPost = (req, res, next) => {
-            res.send("Ei sou sua nova rota de POST");
-            return;
-        };

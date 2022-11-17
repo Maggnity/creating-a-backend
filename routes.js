@@ -1,8 +1,10 @@
 //? IMPORTS
 const express = require("express");
 const route = express.Router();
-const homeController = require('./src/controllers/homeController'); //? controllerHome
-const contatoController = require('./src/controllers/contatoController'); //? controllerContato
+const homeController = require('./src/controllers/homeController'); // ? homeController
+const loginController = require('./src/controllers/loginController'); // ? loginController
+const contatoController = require('./src/controllers/contatoController'); // ? controllerContato
+const { loginRequired } = require('./src/middlewares/middleware'); // ? loginRequired
 
 // ! MIDDLEWARE
     //todo Middleware
@@ -16,15 +18,40 @@ const contatoController = require('./src/controllers/contatoController'); //? co
         route.get(
             '/', 
             meuMiddleware,
-            homeController.paginaInicial, 
+            homeController.index, 
             function(req, res, next){
                 console.log("Estou aqui");
             }
         );
-        route.post('/', homeController.trataPost)
+    // todo Rotas de login
+        //? Login
+        route.get('/login/',loginController.index);
+        
+        // ? Registro
+        route.post('/login/register/',loginController.register);
+        
+        // ? Login
+        route.post('/login/login/',loginController.login);
+        
+        // ? Logout
+        route.get('/login/logout/',loginController.logout);
 
     // todo Rotas de contato
-        route.get('/contato', contatoController.paginaInicial)
+        // ? Contato Pagina inicial
+        route.get('/contato/', loginRequired, contatoController.paginaInicial);
+        
+        // ? Registro de contato
+        route.post('/contato/register/', loginRequired, contatoController.register);
+        
+        // ? Edicao de contato
+        route.get('/contato/:id/', loginRequired, contatoController.edit);
+        
+        // ? Edicao de contato
+        route.post('/contato/edit/:id', loginRequired, contatoController.editId);
+        
+        // ? 
+        route.get('/contato/delete/:id', loginRequired, contatoController.delete);
 
+        
 //! Exportacao do modulo
     module.exports = route;

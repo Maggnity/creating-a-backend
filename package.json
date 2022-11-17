@@ -16,6 +16,7 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
+    "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
     "core-js": "^3.25.5",
@@ -26,6 +27,7 @@
     "express-session": "^1.17.3",
     "helmet": "^6.0.0",
     "mongoose": "^6.6.5",
+    "validator": "^13.7.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
