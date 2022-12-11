@@ -5,7 +5,7 @@ module.exports = {
      * Add altering commands here.
      *
      * Example:*/
-      await queryInterface.createTable('users', {
+      await queryInterface.createTable('alunos', {
 				id: {
 					type: Sequelize.INTEGER,
 					allowNull: false,
@@ -22,10 +22,18 @@ module.exports = {
 				},
 				email: {
 					type: Sequelize.STRING,
-					allowNull: false
+					allowNull: false,
 				},
 				idade: {
 					type: Sequelize.STRING,
+					allowNull: false
+				},
+				created_at: {
+					type: Sequelize.DATE,
+					allowNull: false
+				},
+				updated_at: {
+					type: Sequelize.DATE,
 					allowNull: false
 				},
 			});
@@ -33,11 +41,8 @@ module.exports = {
   },
 
   async down (queryInterface) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example: */
-     await queryInterface.dropTable('users');
+
+	await queryInterface.dropTable('alunos');
 
   }
 };
