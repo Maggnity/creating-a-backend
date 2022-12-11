@@ -1,75 +1,8 @@
-//? IMPORTS
-    require('dotenv').config();
-    const express = require('express');
-    const app = express();
-    const mongoose = require('mongoose');
-    const session = require('express-session');
-    const MongoStore = require('connect-mongo');
-    const flash = require('connect-flash');
-    const routes = require('./routes');
-    const path = require('path');
-    const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
-    const helmet = require('helmet');
-    const csrf = require('csurf');
+import app from './app';
+import router from './src/routes/homeRoutes';
 
-//? CONSTS
-    const sessionOptions = session({
-        secret: 'maggnity',
-        store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 1000*60*60*24*7,
-            httpOnly: true
-        }
-    })
-//! CONNECTION
-    mongoose
-        .connect(
-            process.env.CONNECTIONSTRING, { 
-                useNewUrlParser: true, 
-                useUnifiedTopology: true
-            }
-        )
-        .then(()=> {
-            console.log('conectei a base de dados');
-            app.emit(`pronto`)
-        })
-        .catch(
-            e=>console.log(e)
-        );
+const port = 3001;
 
-//! CHECK STATUS
-app.on('pronto', () => {
-    app.listen(3333, () => {
-        console.log("Acessar http://localhost:3333");
-        console.log("Servidor executando na porta 3333");
-    })
+app.listen(port, ()  => {
+    console.log(`Escutando na porta ${port}`);
 })
-
-//?
-
-    app.use(sessionOptions);
-    app.use(flash());
-    app.use(helmet());
-    app.use(express.urlencoded({ extended: true}));
-    app.use(express.static(path.resolve(__dirname, 'public')));
-    app.set('views', path.resolve(__dirname, 'src', 'views'));
-    app.set('view engine', 'ejs');
-    app.connect('localhost');
-
-
-//! Invocando middlewares E ROTAS
-    app.use(csrf())
-    app.use(middlewareGlobal)
-    app.use(checkCsrfError)
-    app.use(csrfMiddleware)
-    app.use(routes);
-
-
-
-
-
-//        Criar   Ler       atualizar   deletar
-//CRUD -> CREATE, READ,     UPDATE,     DELETE
-//        POST    GET       PUT         DELETE
